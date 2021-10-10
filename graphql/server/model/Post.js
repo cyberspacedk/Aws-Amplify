@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
   comment: String,
-  userId: Number
+  userId: String
 });
 
 module.exports = mongoose.model('Post', postSchema);

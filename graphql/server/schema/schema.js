@@ -1,5 +1,11 @@
 const graphql = require('graphql');
-const _ = require('lodash')
+const _ = require('lodash');
+
+// Mongoose models
+const User = require('../model/user');
+const Post = require('../model/post');
+const Hobby = require('../model/hobby');
+
 
 const {
   GraphQLObjectType,
@@ -7,7 +13,8 @@ const {
   GraphQLString,
   GraphQLInt,
   GraphQLSchema,
-  GraphQLList
+  GraphQLList,
+  GraphQLNonNull
 } = graphql;
 
 //dummy data
@@ -48,13 +55,13 @@ const UserType = new GraphQLObjectType({
     posts: {
       type: new GraphQLList(PostType),
       resolve(parent, args) {
-        return _.filter(postsData, { userId: parent.id })
+        return Post.find({ userId: parent._id });
       }
     },
     hobbies: {
       type: new GraphQLList(HobbyType),
       resolve(parent, args) {
-        return _.filter(hobbiesData, { userId: parent.id })
+        return Hobby.find({ userId: parent.id });
       }
     }
   })
@@ -71,7 +78,7 @@ const HobbyType = new GraphQLObjectType({
     user: {
       type: UserType,
       resolve(parent) {
-        return _.find(usersData, { id: parent.userId })
+        return User.findById(parent.userId);
       }
     }
   })
@@ -87,7 +94,7 @@ const PostType = new GraphQLObjectType({
     user: {
       type: UserType,
       resolve(parent, args) {
-        return _.find(usersData, { id: parent.userId })
+        return User.findById(parent.userId);
       }
     }
   })
@@ -107,7 +114,15 @@ const RootQuery = new GraphQLObjectType({
         }
       },
       resolve(parent, args) {
-        return _.find(usersData, { id: args.id })
+        // Find user in DB by model
+        return User.findById(args.id);
+      }
+    },
+
+    users: {
+      type: new GraphQLList(UserType),
+      resolve(parent, args) {
+        return User.find({});
       }
     },
 
@@ -119,7 +134,14 @@ const RootQuery = new GraphQLObjectType({
         }
       },
       resolve(parent, args) {
-        return _.find(hobbiesData, { id: args.id })
+        return Hobby.findById(args.id)
+      }
+    },
+
+    hobbies: {
+      type: new GraphQLList(HobbyType),
+      resolve() {
+        return Hobby.find({});
       }
     },
 
@@ -131,9 +153,16 @@ const RootQuery = new GraphQLObjectType({
         }
       },
       resolve(parent, args) {
-        return _.find(postsData, { id: args.id })
+        return Post.findById(args.id)
       }
-    }
+    },
+
+    posts: {
+      type: new GraphQLList(PostType),
+      resolve() {
+        return Post.find({})
+      }
+    },
   }
 });
 
@@ -145,35 +174,58 @@ const Mutation = new GraphQLObjectType({
     createUser: {
       type: UserType,
       args: {
-        id: { type: GraphQLID },
+        name: { type: new GraphQLNonNull(GraphQLString) },
+        age: { type: new GraphQLNonNull(GraphQLInt) },
+        profession: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve(parent, args) {
+        // Create new User invoking mongoose model
+        const user = new User({
+          name: args.name,
+          age: args.age,
+          profession: args.profession
+        });
+
+        // save to DB
+        user.save();
+
+        return user;
+      }
+    },
+
+    updateUser: {
+      type: UserType,
+      args: {
+        id: new GraphQLNonNull(GraphQLID),
         name: { type: GraphQLString },
         age: { type: GraphQLInt },
         profession: { type: GraphQLString }
       },
       resolve(parent, args) {
-        const user = {
-          id: 55,
-          name: args.name,
-          age: args.age,
-          profession: args.profession
+        const data = {
+          ...(args.name && { name: args.name }),
+          ...(args.age && { name: args.age }),
+          ...(args.profession && { name: args.profession }),
+
         };
-        return user;
+        return User.findByIdAndUpdate(args.id, data)
       }
     },
 
     createPost: {
       type: PostType,
       args: {
-        comment: { type: GraphQLString },
-        userId: { type: GraphQLID },
+        comment: { type: new GraphQLNonNull(GraphQLString) },
+        userId: { type: new GraphQLNonNull(GraphQLID) },
       },
       resolve(parent, args) {
-        const post = {
-          id: Math.floor(Math.random() * 999),
+        const post = new Post({
           comment: args.comment,
           userId: args.userId
-        };
-        postsData.push(post);
+        });
+
+        post.save();
+
         return post;
       }
     },
@@ -181,18 +233,20 @@ const Mutation = new GraphQLObjectType({
     createHobby: {
       type: HobbyType,
       args: {
-        id: { type: GraphQLID },
-        title: { type: GraphQLString },
-        description: { title: GraphQLString },
-        userId: { GraphQLString },
+        title: { type: new GraphQLNonNull(GraphQLString) },
+        description: { type: new GraphQLNonNull(GraphQLString) },
+        userId: { type: new GraphQLNonNull(GraphQLString) },
       },
       resolve(parent, args) {
-        const hobby = {
-          id: Math.floor(Math.random() * 999),
+        const hobby = new Hobby({
           title: args.title,
           description: args.description,
           userId: args.userId
-        }
+        });
+
+        hobby.save();
+
+        return hobby;
       }
     }
   }
