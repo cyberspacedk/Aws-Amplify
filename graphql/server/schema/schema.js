@@ -184,6 +184,23 @@ const Mutation = new GraphQLObjectType({
       }
     },
 
+    removeUser: {
+      type: UserType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve(parent, args) {
+
+        const removedUser = User.findByIdAndRemove(args.id).exec();
+
+        if (!removedUser) {
+          throw Error("Error while deleting !")
+        }
+
+        return removedUser;
+      }
+    },
+
     createPost: {
       type: PostType,
       args: {
@@ -211,6 +228,23 @@ const Mutation = new GraphQLObjectType({
       },
       resolve(parent, args) {
         return Post.findByIdAndUpdate(args.id, { comment: args.comment, userId: args.userId }, { new: true })
+      }
+    },
+
+    removePost: {
+      type: PostType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve(parent, args) {
+
+        const removedPost = Post.findByIdAndRemove(args.id).exec();
+
+        if (!removedPost) {
+          throw Error("Error while deleting !")
+        }
+
+        return removedPost;
       }
     },
 
@@ -249,7 +283,24 @@ const Mutation = new GraphQLObjectType({
           userId: args.userId,
         }, { new: true })
       }
-    }
+    },
+
+    removeHobby: {
+      type: HobbyType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+      },
+      resolve(parent, args) {
+
+        const removedHobby = Hobby.findByIdAndRemove(args.id).exec();
+
+        if (!removedHobby) {
+          throw Error("Error while deleting !")
+        }
+
+        return removedHobby;
+      }
+    },
   }
 })
 
