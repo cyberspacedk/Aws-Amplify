@@ -21,6 +21,6 @@ app.use('/graphql', graphqlHTTP({
   schema
 }));
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 7000, () => {
   console.log('Server start at', process.env.PORT)
 });
