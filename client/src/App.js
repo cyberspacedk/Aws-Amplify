@@ -1,11 +1,19 @@
+import {withAuthenticator} from 'aws-amplify-react';
+
+import DisplayPosts from './components/DisplayPosts';
+import CreatePost from './components/CreatePost';
+
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      Amplify
+      <CreatePost />
+      <DisplayPosts />
     </div>
   );
 }
 
-export default App;
+export default withAuthenticator(App, {
+  includeGreetings: true
+});

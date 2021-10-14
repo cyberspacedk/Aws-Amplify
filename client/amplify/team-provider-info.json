@@ -10,6 +10,11 @@
       "StackName": "amplify-gqlamplify-dev-93212",
       "StackId": "arn:aws:cloudformation:eu-central-1:130420794310:stack/amplify-gqlamplify-dev-93212/2452a3b0-2b26-11ec-800e-02cd5a358d6c",
       "AmplifyAppId": "d26eisazjsdify"
+    },
+    "categories": {
+      "auth": {
+        "gqlamplify50955f47": {}
+      }
     }
   }
 }
