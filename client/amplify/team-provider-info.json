@@ -14,6 +14,12 @@
     "categories": {
       "auth": {
         "gqlamplify50955f47": {}
+      },
+      "function": {
+        "S3Trigger1f6890f6": {
+          "deploymentBucketName": "amplify-gqlamplify-dev-93212-deployment",
+          "s3Key": "amplify-builds/S3Trigger1f6890f6-346762496275694b6c38-build.zip"
+        }
       }
     }
   }

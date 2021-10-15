@@ -1,6 +1,6 @@
 {
     "identityPoolName": "gqlamplify50955f47_identitypool_50955f47",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "gqlamp50955f47",
     "userPoolName": "gqlamplify50955f47_userpool_50955f47",
     "autoVerifiedAttributes": [
