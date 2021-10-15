@@ -1,0 +1,11 @@
+{
+  "AppSyncApiName": "serverlessreact",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authserverlessreactaef5fbec",
+      "Outputs.UserPoolId"
+    ]
+  }
+}
