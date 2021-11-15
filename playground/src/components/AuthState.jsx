@@ -3,10 +3,9 @@ import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
 
 const AuthStateApp = ({children}) => {
-  const [authState, setAuthState] = useState();
-  console.log("🚀 ~ file: AuthState.jsx ~ line 7 ~ AuthStateApp ~ authState", authState)
+  const [authState, setAuthState] = useState(); 
+ 
   const [user, setUser] = useState();
-  console.log("🚀 ~ file: AuthState.jsx ~ line 9 ~ AuthStateApp ~ user", user)
 
   useEffect(()=> {
     return onAuthUIStateChange((nextAuthState, authData) => {
@@ -15,7 +14,7 @@ const AuthStateApp = ({children}) => {
     })
   }, []);
 
-  const isAuthenticated = AuthState.SignedIn && user;
+  const isAuthenticated = authState === AuthState.SignedIn && user;
 
   return isAuthenticated ? (
     <>

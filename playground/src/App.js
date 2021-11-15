@@ -3,10 +3,8 @@ import AmplifyREST from './components/AmplifyREST';
 
 function App() {
   return (
-    <AuthStateApp>
-      <div>
-        <AmplifyREST /> 
-      </div>
+    <AuthStateApp> 
+        <AmplifyREST />  
     </AuthStateApp>
   );
 }

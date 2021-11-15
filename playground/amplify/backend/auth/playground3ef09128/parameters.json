@@ -1,6 +1,4 @@
 {
-    "identityPoolName": "playground3ef09128_identitypool_3ef09128",
-    "allowUnauthenticatedIdentities": false,
     "resourceNameTruncated": "playgr3ef09128",
     "userPoolName": "playground3ef09128_userpool_3ef09128",
     "autoVerifiedAttributes": [
@@ -33,7 +31,7 @@
     "userpoolClientSetAttributes": false,
     "sharedId": "3ef09128",
     "resourceName": "playground3ef09128",
-    "authSelections": "identityPoolAndUserPool",
+    "authSelections": "userPoolOnly",
     "authRoleArn": {
         "Fn::GetAtt": [
             "AuthRole",
@@ -46,9 +44,19 @@
             "Arn"
         ]
     },
-    "useDefault": "default",
+    "useDefault": "manual",
     "userPoolGroupList": [],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
-    "dependsOn": []
+    "dependsOn": [],
+    "userPoolGroups": false,
+    "adminQueries": false,
+    "triggers": "{}",
+    "hostedUI": false,
+    "parentStack": {
+        "Ref": "AWS::StackId"
+    },
+    "breakCircularDependency": true,
+    "permissions": [],
+    "authProviders": []
 }

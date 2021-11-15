@@ -20,6 +20,10 @@
         "mainlambda": {
           "deploymentBucketName": "amplify-playground-dev-111812-deployment",
           "s3Key": "amplify-builds/mainlambda-697150754e5255444e62-build.zip"
+        },
+        "AdminQueries7d497bee": {
+          "deploymentBucketName": "amplify-playground-dev-111812-deployment",
+          "s3Key": "amplify-builds/AdminQueries7d497bee-35486f707a6c78487172-build.zip"
         }
       },
       "auth": {
